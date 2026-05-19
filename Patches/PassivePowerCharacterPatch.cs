@@ -27,6 +27,7 @@ public class PassivePowerCharacterPatch
     if (__instance is not Player player) return;
 
     var effects = player.GetSEMan().GetStatusEffects();
+    if (effects == null) return;
 
     foreach (var effect in effects.Where(effect => effect.name.StartsWith("SE")))
     {

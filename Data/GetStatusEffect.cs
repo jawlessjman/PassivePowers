@@ -14,6 +14,11 @@ public static class GetStatusEffect
     /// Dictionary that maps the name of the passive power to the status effect.
     /// </summary>
     private static Dictionary<string, CustomStatusEffect> _effects;
+    
+    /// <summary>
+    /// Flag that indicates if the class has been initialized.
+    /// </summary>
+    public static bool Initialized = false;
 
     /// <summary>
     /// Gets the status effect for a given passive power.
@@ -22,6 +27,12 @@ public static class GetStatusEffect
     /// <returns>Status effect or null</returns>
     public static StatusEffect GetPassiveStatusEffect(string name)
     {
+        if (!Initialized) return null;
+        if (string.IsNullOrEmpty(name)) return null;
+        if (ObjectDB.instance == null) return null;
+        if (_effects == null) return null;
+        if (ObjectDB.instance.m_StatusEffects == null) return null;
+        
         return _effects.TryGetValue(name, out var effect) ? effect.StatusEffect : null;
     }
     
@@ -48,6 +59,8 @@ public static class GetStatusEffect
             _effects.Add(effectInstance.name, customStatus);
             ItemManager.Instance.AddStatusEffect(customStatus);
         }
+        
+        Initialized = true;
     }
 
     /// <summary>

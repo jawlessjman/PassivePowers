@@ -1,6 +1,7 @@
-﻿using HarmonyLib;
-using UnityEngine;
+﻿using System;
+using HarmonyLib;
 using PassivePowers.Data;
+using Object = UnityEngine.Object;
 
 namespace PassivePowers.Patches;
 
@@ -59,11 +60,12 @@ public class PassivePowersPlayerPatch
     /// <param name="cooldown">cooldown</param>
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Player), nameof(Player.GetGuardianPowerHUD))]
-    private static void GetGuardianPowerHudPrefix(out StatusEffect se, out float cooldown)
+    private static bool GetGuardianPowerHudPrefix(out StatusEffect se, out float cooldown)
     {
         //Plugin.Logger.LogInfo("Reset cooldown and removed status effect from forsaken power");
         se = (StatusEffect)null;
         cooldown = 0.0f;
+        return false;
     }
     
     /// <summary>
@@ -75,30 +77,38 @@ public class PassivePowersPlayerPatch
     [HarmonyPatch(typeof(Player), nameof(Player.SetGuardianPower))]
     private static void SetGuardianPowerPostfix(Player __instance, string name)
     {
-        if (__instance == null || string.IsNullOrEmpty(name)) return;
-        
-        var seMan = __instance.GetSEMan();
-        if (seMan == null) return;
-        
-        // Remove all passive powers
-        foreach (var passiveName in PowerMapping.Values)
+        try
         {
-            seMan.RemoveStatusEffect(passiveName.GetStableHashCode());
-        }
+            if (__instance == null || string.IsNullOrEmpty(name)) return;
+            if (!GetStatusEffect.Initialized) return;
+            var seMan = __instance.GetSEMan();
+            if (seMan == null) return;
 
-        // Get the target passive power
-        if (!PowerMapping.TryGetValue(name, out var targetPassiveName)) return;
-        var targetEffect = GetStatusEffect.GetPassiveStatusEffect(targetPassiveName);
-    
-        // Add the passive power
-        if (targetEffect != null)
-        {
-            Plugin.Logger.LogInfo($"Successfully bound passive layer: {targetPassiveName}");
-            seMan.AddStatusEffect(targetEffect);
+            // Remove all passive powers
+            foreach (var passiveName in PowerMapping.Values)
+            {
+                seMan.RemoveStatusEffect(passiveName.GetStableHashCode());
+            }
+
+            // Get the target passive power
+            if (!PowerMapping.TryGetValue(name, out var targetPassiveName)) return;
+            var targetEffect = GetStatusEffect.GetPassiveStatusEffect(targetPassiveName);
+
+            // Add the passive power
+            if (targetEffect != null)
+            {
+                Plugin.Logger.LogInfo($"Successfully bound passive layer: {targetPassiveName}");
+                seMan.AddStatusEffect(targetEffect);
+            }
+            else
+            {
+                Plugin.Logger.LogWarning(
+                    $"Target effect {targetPassiveName} was missing from the Jötunn ObjectDB registry! or the passive effect is not ready");
+            }
         }
-        else
+        catch (Exception ex)
         {
-            Plugin.Logger.LogWarning($"Target effect {targetPassiveName} was missing from the Jötunn ObjectDB registry!");
+            Plugin.Logger.LogError(ex.ToString());
         }
     }
     
