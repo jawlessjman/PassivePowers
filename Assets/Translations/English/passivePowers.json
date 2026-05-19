@@ -1,0 +1,32 @@
+﻿{
+  "passive_eikthyr_effect" : "Passive Eikthyr Power",
+  "passive_eikthyr_effect_start" : "The grace of the mighty stag flows through you",
+  "passive_eikthyr_effect_tooltip" : "The grace of the mighty stag flows through you. Your ability to move around is slightly improved, be it on land or in water.",
+  
+  "passive_elder_effect" : "Passive Elder Power",
+  "passive_elder_effect_start" : "The power of the forest invigorates you",
+  "passive_elder_effect_tooltip" : "The power of the forest invigorates you. You shall gather its bounties slightly faster, just as you shall regain your own vitality should you lose it.",
+  
+  "passive_bonemass_effect" : "Passive Bonemass Power",
+  "passive_bonemass_effect_start" : "The mass takes the brunt of your blows",
+  "passive_bonemass_effect_tooltip" : "The mass takes the brunt of your blows. The effort required to raise your shield slightly lessens, and you can slightly withstand harder hits. (Damage reduction does not show but is applied)",
+  
+  "passive_moder_effect" : "Passive Moder Power",
+  "passive_moder_effect_start" : "The dragon's wings urge you on",
+  "passive_moder_effect_tooltip" : "The dragon's wings urge you on. You shall always have tailwind while sailing, and you shall swiftly carry some heavy burdens, even over the coldest mountains. (Damage reduction does not show but is applied)",
+  "passive_moder_sail_effect" : "Moder Tailwind",
+  "passive_moder_sail_start" : "The winds blow behind you",
+  "passive_moder_sail_tooltip" : "The dragon's wings urge you on. You shall always have tailwind while sailing.",
+  
+  "passive_yagluth_effect" : "Passive Yagluth Power",
+  "passive_yagluth_effect_start" : "The ancient stones speak to you",
+  "passive_yagluth_effect_tooltip" : "The fallen king lends you some of his might. A king must have the power to vanquish his foes, just as he must be able to support his people. (Damage reduction does not show but is applied)",
+  
+  "passive_queen_effect" : "Passive Queen Power",
+  "passive_queen_effect_start" : "The seeker's mind bends to your will",
+  "passive_queen_effect_tooltip" : "Her Majesty somewhat blesses you. In her shadow both stealth and magic may somewhat flourish, and poison shall somewhat harm you. (Damage reduction does not show but is applied)",
+  
+  "passive_fader_effect" : "Passive Fader Power",
+  "passive_fader_effect_start" : "The ash storms answer to your call",
+  "passive_fader_effect_tooltip" : "The Emerald Flame never relents. You shall stand your ground, even when it is aflame, and you shall use all the advantages the battle may offer you. (Damage reduction does not show but is applied)"
+}
