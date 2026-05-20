@@ -1,7 +1,6 @@
 ﻿using System;
 using HarmonyLib;
 using PassivePowers.Data;
-using Object = UnityEngine.Object;
 
 namespace PassivePowers.Patches;
 
@@ -11,9 +10,6 @@ namespace PassivePowers.Patches;
 [HarmonyPatch]
 public class PassivePowersPlayerPatch
 {
-    private static readonly int ModerHash = "GP_Moder".GetStableHashCode();
-    private static readonly int PassiveModerHash = "SE_PassiveModerEffect".GetStableHashCode();
-    
     /// <summary>
     /// Maps the name of the guardian power to the name of the passive power effect.
     /// </summary>
@@ -60,12 +56,28 @@ public class PassivePowersPlayerPatch
     /// <param name="cooldown">cooldown</param>
     [HarmonyPrefix]
     [HarmonyPatch(typeof(Player), nameof(Player.GetGuardianPowerHUD))]
-    private static bool GetGuardianPowerHudPrefix(out StatusEffect se, out float cooldown)
+    private static bool GetGuardianPowerHudPrefix(Player __instance, out StatusEffect se, out float cooldown)
     {
-        //Plugin.Logger.LogInfo("Reset cooldown and removed status effect from forsaken power");
         se = (StatusEffect)null;
         cooldown = 0.0f;
-        return false;
+        
+        if (__instance == null)
+        {
+            return false;
+        }
+        var currentPower = __instance.GetGuardianPowerName();
+        
+        return currentPower switch
+        {
+            "GP_Eikthyr" => !Plugin.EikthyrEnabled.Value,
+            "GP_TheElder" => !Plugin.ElderEnabled.Value,
+            "GP_Bonemass" => !Plugin.BonemassEnabled.Value,
+            "GP_Moder" => !Plugin.ModerEnabled.Value,
+            "GP_Yagluth" => !Plugin.YagluthEnabled.Value,
+            "GP_Queen" => !Plugin.QueenEnabled.Value,
+            "GP_Fader" => !Plugin.FaderEnabled.Value,
+            _ => false
+        };
     }
     
     /// <summary>
@@ -110,63 +122,5 @@ public class PassivePowersPlayerPatch
         {
             Plugin.Logger.LogError(ex.ToString());
         }
-    }
-    
-    /// <summary>
-    /// Adds the moder effect when the player starts controlling the boat.
-    /// </summary>
-    /// <param name="__instance"></param>
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(Player), nameof(Player.StartDoodadControl))]
-    public static void StartDoodadControlPostfix(Player __instance)
-    {
-        if (__instance == null) return;
-        if (!((Object)Player.m_localPlayer != (Object)null)) return;
-        
-        var seMan = __instance.GetSEMan();
-        if (seMan == null) return;
-        if (!seMan.HaveStatusEffect(PassiveModerHash) || seMan.HaveStatusEffect(ModerHash)) return;
-        
-        // Create the moder effect
-        var infiniteModerEffect = ObjectDB.instance.GetStatusEffect(ModerHash);
-        if (infiniteModerEffect == null) return;
-
-        infiniteModerEffect.m_ttl = 0.0f;
-        infiniteModerEffect.m_name = "$passive_moder_sail_effect";
-        infiniteModerEffect.m_startMessage = "$passive_moder_sail_start";
-        infiniteModerEffect.m_tooltip = "$passive_moder_sail_tooltip";
-        
-        //Remove the moder effect stats
-        if (infiniteModerEffect is SE_Stats stats)
-        {
-            stats.m_addMaxCarryWeight = 0.0f;
-            stats.m_speedModifier = 0.0f;
-            stats.m_mods =
-            [
-                new HitData.DamageModPair()
-                    { m_type = HitData.DamageType.Frost, m_modifier = HitData.DamageModifier.Normal }
-            ];
-        }
-        
-        seMan.AddStatusEffect(ModerHash);
-    }
-    
-    /// <summary>
-    /// Remove the moder effect when the player stops controlling the boat.
-    /// </summary>
-    /// <param name="__instance">Player</param>
-    [HarmonyPostfix]
-    [HarmonyPatch(typeof(Player), nameof(Player.StopDoodadControl))]
-    public static void StopDoodadControlPostfix(Player __instance)
-    {
-        if (__instance == null) return;
-        if (!((Object)Player.m_localPlayer != (Object)null)) return;
-        
-        var seMan = __instance.GetSEMan();
-        if (seMan == null) return;
-        if (!seMan.HaveStatusEffect(PassiveModerHash)) return;
-        
-        if (!seMan.HaveStatusEffect(ModerHash)) return;
-        seMan.RemoveStatusEffect(ModerHash);
     }
 }

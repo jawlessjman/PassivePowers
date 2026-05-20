@@ -32,6 +32,31 @@ public static class GetStatusEffect
         if (ObjectDB.instance == null) return null;
         if (_effects == null) return null;
         if (ObjectDB.instance.m_StatusEffects == null) return null;
+
+        switch (name)
+        {
+            case "SE_PassiveEikthyrEffect":
+                if (!Plugin.EikthyrEnabled.Value) return null;
+                break;
+            case "SE_PassiveElderEffect":
+                if (!Plugin.ElderEnabled.Value) return null;
+                break;
+            case "SE_PassiveBonemassEffect":
+                if (!Plugin.BonemassEnabled.Value) return null;
+                break;
+            case "SE_PassiveModerEffect":
+                if (!Plugin.ModerEnabled.Value) return null;
+                break;
+            case "SE_PassiveYagluthEffect":
+                if (!Plugin.YagluthEnabled.Value) return null;
+                break;
+            case "SE_PassiveQueenEffect":
+                if (!Plugin.QueenEnabled.Value) return null;
+                break;
+            case "SE_PassiveFaderEffect":
+                if (!Plugin.FaderEnabled.Value) return null;
+                break;
+        }
         
         return _effects.TryGetValue(name, out var effect) ? effect.StatusEffect : null;
     }
@@ -165,7 +190,7 @@ public static class GetStatusEffect
     /// <returns>Passive moder power</returns>
     private static StatusEffect CreateModerPassive(StatusEffect prefab)
     {
-        var effect = ScriptableObject.CreateInstance<SE_Stats>();
+        var effect = Object.Instantiate(prefab);
 
         effect.name = "SE_PassiveModerEffect";
         effect.m_name = "$passive_moder_effect";
@@ -176,10 +201,16 @@ public static class GetStatusEffect
         effect.m_cooldownIcon = false;
         effect.m_flashIcon = false;
         effect.m_ttl = 0.0f;
-        
-        effect.m_addMaxCarryWeight = ForsakenPowerStats.ModerCarryWeightModifier * Plugin.PowerAmount.Value;
-        effect.m_speedModifier = ForsakenPowerStats.ModerSpeedModifier * Plugin.PowerAmount.Value;
-        
+
+        if (effect is not SE_Stats stats) return effect;
+        stats.m_addMaxCarryWeight = ForsakenPowerStats.ModerCarryWeightModifier * Plugin.PowerAmount.Value;
+        stats.m_speedModifier = ForsakenPowerStats.ModerSpeedModifier * Plugin.PowerAmount.Value;
+        stats.m_mods =
+        [
+            new HitData.DamageModPair()
+                { m_type = HitData.DamageType.Frost, m_modifier = HitData.DamageModifier.Normal }
+        ];
+
         return effect;
     }
 

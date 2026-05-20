@@ -54,7 +54,7 @@ public class Plugin : BaseUnityPlugin
             "General",
             "Passive Power Percent",
             0.1f,
-            new ConfigDescription("The percentage of the base forsaken power to grant default is 10% (0.1)", new AcceptableValueRange<float>(0.01f, 1f))
+            new ConfigDescription("The percentage of the base forsaken power to grant default is 10% (0.1) 500% (5)", new AcceptableValueRange<float>(0.01f, 5f))
         );
 
         EikthyrEnabled = Config.Bind(
