@@ -93,6 +93,10 @@ public class PassivePowersPlayerPatch
         {
             if (__instance == null || string.IsNullOrEmpty(name)) return;
             if (!GetStatusEffect.Initialized) return;
+            
+            // Do not add status effects in the main menu (character selection)
+            if (ZNetScene.instance == null) return;
+            
             var seMan = __instance.GetSEMan();
             if (seMan == null) return;
 
@@ -120,7 +124,7 @@ public class PassivePowersPlayerPatch
         }
         catch (Exception ex)
         {
-            Plugin.Logger.LogError(ex.ToString());
+            Plugin.Logger.LogWarning(ex.ToString());
         }
     }
 }

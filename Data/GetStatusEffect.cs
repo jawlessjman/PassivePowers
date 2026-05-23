@@ -190,6 +190,7 @@ public static class GetStatusEffect
     /// <returns>Passive moder power</returns>
     private static StatusEffect CreateModerPassive(StatusEffect prefab)
     {
+        // Instantiate the prefab moder effect so we can get the tailwind effect
         var effect = Object.Instantiate(prefab);
 
         effect.name = "SE_PassiveModerEffect";
@@ -201,7 +202,8 @@ public static class GetStatusEffect
         effect.m_cooldownIcon = false;
         effect.m_flashIcon = false;
         effect.m_ttl = 0.0f;
-
+        
+        // Get the SE_Stats instance of the prefab so we can modify its properties
         if (effect is not SE_Stats stats) return effect;
         stats.m_addMaxCarryWeight = ForsakenPowerStats.ModerCarryWeightModifier * Plugin.PowerAmount.Value;
         stats.m_speedModifier = ForsakenPowerStats.ModerSpeedModifier * Plugin.PowerAmount.Value;
