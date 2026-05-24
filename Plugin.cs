@@ -42,69 +42,7 @@ public class Plugin : BaseUnityPlugin
         // Plugin startup logic
         Logger = base.Logger;
         
-        // Load config values
-        _powersEnabled = Config.Bind(
-            "General",
-            "Enable Passive Powers",
-            true,
-            new ConfigDescription("Enable Passive Powers mod")
-        );
-
-        PowerAmount = Config.Bind(
-            "General",
-            "Passive Power Percent",
-            0.1f,
-            new ConfigDescription("The percentage of the base forsaken power to grant default is 10% (0.1) 500% (5)", new AcceptableValueRange<float>(0.01f, 5f))
-        );
-
-        EikthyrEnabled = Config.Bind(
-            "General",
-            "Eikthyr Passive Power Enabled",
-            true,
-            new ConfigDescription("Enable Eikthyr Passive Power")
-            );
-        
-        ElderEnabled = Config.Bind(
-            "General",
-            "Elder Passive Power Enabled",
-            true,
-            new ConfigDescription("Enable Elder Passive Power")
-        );
-        
-        BonemassEnabled = Config.Bind(
-            "General",
-            "Bonemass Passive Power Enabled",
-            true,
-            new ConfigDescription("Enable Bonemass Passive Power")
-        );
-        
-        ModerEnabled = Config.Bind(
-            "General",
-            "Moder Passive Power Enabled",
-            true,
-            new ConfigDescription("Enable Moder Passive Power")
-        );
-        
-        YagluthEnabled = Config.Bind(
-            "General",
-            "Yagluth Passive Power Enabled",
-            true,
-            new ConfigDescription("Enable Yagluth Passive Power")
-        );
-        
-        QueenEnabled = Config.Bind(
-            "General",
-            "Queen Passive Power Enabled",
-            true,
-            new ConfigDescription("Enable Queen Passive Power")
-        );
-        
-        FaderEnabled = Config.Bind(
-            "General",
-            "Fader Passive Power Enabled",
-            true,
-            new ConfigDescription("Enable Fader Passive Power")
-        );
+        BindConfigs();
         
         // Load local translation for English
         const string resourceName = $"PassivePowers.Assets.Translations.English.passivePowers.json";
@@ -152,5 +90,72 @@ public class Plugin : BaseUnityPlugin
             Logger.LogInfo($"Loading translation file: {file}");
             LocalizationManager.Instance.GetLocalization().AddFileByPath(file);
         }
+    }
+
+    private void BindConfigs()
+    {
+        // Load config values
+        _powersEnabled = Config.Bind(
+            "General",
+            "Enable Passive Powers",
+            true,
+            new ConfigDescription("Enable Passive Powers mod")
+        );
+
+        PowerAmount = Config.Bind(
+            "General",
+            "Passive Power Percent",
+            0.1f,
+            new ConfigDescription("The percentage of the base forsaken power to grant default is 10% (0.1) 500% (5)", new AcceptableValueRange<float>(0.01f, 5f))
+        );
+
+        EikthyrEnabled = Config.Bind(
+            "General",
+            "Eikthyr Passive Power Enabled",
+            true,
+            new ConfigDescription("Enable Eikthyr Passive Power")
+        );
+        
+        ElderEnabled = Config.Bind(
+            "General",
+            "Elder Passive Power Enabled",
+            true,
+            new ConfigDescription("Enable Elder Passive Power")
+        );
+        
+        BonemassEnabled = Config.Bind(
+            "General",
+            "Bonemass Passive Power Enabled",
+            true,
+            new ConfigDescription("Enable Bonemass Passive Power")
+        );
+        
+        ModerEnabled = Config.Bind(
+            "General",
+            "Moder Passive Power Enabled",
+            true,
+            new ConfigDescription("Enable Moder Passive Power")
+        );
+        
+        YagluthEnabled = Config.Bind(
+            "General",
+            "Yagluth Passive Power Enabled",
+            true,
+            new ConfigDescription("Enable Yagluth Passive Power")
+        );
+        
+        QueenEnabled = Config.Bind(
+            "General",
+            "Queen Passive Power Enabled",
+            true,
+            new ConfigDescription("Enable Queen Passive Power")
+        );
+        
+        FaderEnabled = Config.Bind(
+            "General",
+            "Fader Passive Power Enabled",
+            true,
+            new ConfigDescription("Enable Fader Passive Power")
+        );
     }
 }
