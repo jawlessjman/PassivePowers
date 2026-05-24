@@ -1,10 +1,10 @@
 ﻿using System.IO;
-using System.Reflection;
 using BepInEx;
 using BepInEx.Logging;
 using BepInEx.Configuration;
 using HarmonyLib;
 using Jotunn.Managers;
+using Jotunn.Utils;
 using PassivePowers.Data;
 
 namespace PassivePowers;
@@ -12,14 +12,14 @@ namespace PassivePowers;
 /// <summary>
 /// The main class that is called by BepInEx.
 /// </summary>
-[BepInPlugin(ModGUID, ModName, ModVersion)]
+[BepInPlugin(ModGuid, ModName, ModVersion)]
 [BepInDependency(Jotunn.Main.ModGuid)]
 public class Plugin : BaseUnityPlugin
 {
-    internal static new ManualLogSource Logger;
+    internal new static ManualLogSource Logger;
     
     // Plugin info
-    private const string ModGUID = "jawlessjman.PassivePowers";
+    private const string ModGuid = "jawlessjman.PassivePowers";
     public const string ModName = "PassivePowers";
     public const string ModVersion = "1.0.2";   
     
@@ -107,21 +107,15 @@ public class Plugin : BaseUnityPlugin
         );
         
         // Load local translation for English
-        var assembly = Assembly.GetExecutingAssembly();
-
         const string resourceName = $"PassivePowers.Assets.Translations.English.passivePowers.json";
-        
-        using var stream = assembly.GetManifestResourceStream(resourceName);
-
-        if (stream == null)
+        var localizedEnglish = AssetUtils.LoadTextFromResources(resourceName);
+        if (string.IsNullOrEmpty(localizedEnglish))
         {
-            Logger.LogError($"Resource: {resourceName} to load English translation file");
+            Logger.LogInfo($"Loading English translation file from resources");
         }
         else
         {
-            using var reader = new StreamReader(stream);
-            var json = reader.ReadToEnd();
-            Jotunn.Managers.LocalizationManager.Instance.GetLocalization().AddJsonFile("English", json);
+            LocalizationManager.Instance.GetLocalization().AddJsonFile("English", localizedEnglish);
         }
         
         // Load translations for other languages
@@ -137,7 +131,7 @@ public class Plugin : BaseUnityPlugin
         
         ItemManager.OnItemsRegistered += GetStatusEffect.RegisterAllPassivePowers;
         
-        _harmony = new Harmony(ModGUID);
+        _harmony = new Harmony(ModGuid);
         _harmony.PatchAll();
     }
     
@@ -153,10 +147,10 @@ public class Plugin : BaseUnityPlugin
 
         if (!Directory.Exists(root)) return;
         
-        foreach (var file in Directory.GetFiles(root, "*.json", SearchOption.AllDirectories))
+        foreach (var file in Directory.GetFiles(root, "passivePowers.json", SearchOption.AllDirectories))
         {
             Logger.LogInfo($"Loading translation file: {file}");
-            Jotunn.Managers.LocalizationManager.Instance.GetLocalization().AddFileByPath(file);
+            LocalizationManager.Instance.GetLocalization().AddFileByPath(file);
         }
     }
 }

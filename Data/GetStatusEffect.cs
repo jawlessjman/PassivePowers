@@ -66,6 +66,9 @@ public static class GetStatusEffect
     /// </summary>
     public static void RegisterAllPassivePowers()
     {
+        if (Initialized) return;
+        if (ObjectDB.instance == null) return;
+        
         string[] powerNames = ["GP_Eikthyr", "GP_TheElder", "GP_Bonemass", "GP_Moder", "GP_Yagluth", "GP_Queen", "GP_Fader"
         ];
         
