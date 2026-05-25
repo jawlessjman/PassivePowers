@@ -27,11 +27,14 @@ public static class GetStatusEffect
     /// <returns>Status effect or null</returns>
     public static StatusEffect GetPassiveStatusEffect(string name)
     {
-        if (!Initialized) return null;
         if (string.IsNullOrEmpty(name)) return null;
         if (ObjectDB.instance == null) return null;
-        if (_effects == null) return null;
         if (ObjectDB.instance.m_StatusEffects == null) return null;
+        if (_effects == null) return null;
+        if (_effects.Count == 0)
+        {
+            return ObjectDB.instance.GetStatusEffect(name.GetStableHashCode());
+        }
 
         switch (name)
         {
@@ -77,6 +80,11 @@ public static class GetStatusEffect
     {
         if (Initialized) return;
         if (ObjectDB.instance == null) return;
+        if (!Plugin.ConfigSync.IsSourceOfTruth)
+        {
+            Initialized = true;
+            return;
+        }
         
         string[] powerNames = ["GP_Eikthyr", "GP_TheElder", "GP_Bonemass", "GP_Moder", "GP_Yagluth", "GP_Queen", "GP_Fader"
         ];

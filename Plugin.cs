@@ -22,7 +22,7 @@ public class Plugin : BaseUnityPlugin
     // Plugin info
     private const string ModGuid = "jawlessjman.PassivePowers";
     public const string ModName = "PassivePowers";
-    public const string ModVersion = "1.1.0";
+    public const string ModVersion = "1.1.1";
 
     // Config values
     private ConfigEntry<bool> _powersEnabled;
@@ -36,7 +36,7 @@ public class Plugin : BaseUnityPlugin
     public static ConfigEntry<bool> QueenEnabled;
     public static ConfigEntry<bool> FaderEnabled;
 
-    private static readonly ConfigSync ConfigSync = new(ModGuid)
+    public static readonly ConfigSync ConfigSync = new(ModGuid)
     {
         DisplayName = ModName,
         CurrentVersion = ModVersion,
