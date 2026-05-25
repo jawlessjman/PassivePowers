@@ -60,6 +60,15 @@ public static class GetStatusEffect
         
         return _effects.TryGetValue(name, out var effect) ? effect.StatusEffect : null;
     }
+
+    /// <summary>
+    /// Resets the status effects.
+    /// </summary>
+    public static void ResetStatusEffects()
+    {
+        Initialized = false;
+        _effects.Clear();
+    }
     
     /// <summary>
     /// Registers all passive powers.
