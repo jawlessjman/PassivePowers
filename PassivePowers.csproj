@@ -4,7 +4,7 @@
     <TargetFramework>net48</TargetFramework>
     <AssemblyName>PassivePowers</AssemblyName>
     <Product>My first plugin</Product>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
     <RestoreAdditionalProjectSources>
@@ -20,10 +20,6 @@
     <PackageReference Include="BepInEx.Core" Version="5.*" />
     <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
     <PackageReference Include="UnityEngine.Modules" Version="6000.0.61.41133" IncludeAssets="compile" />
-    <PackageReference Include="Valheim.GameLibs" Version="*-*">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
     <PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.45" PrivateAssets="all" />
   </ItemGroup>
   
@@ -32,15 +28,25 @@
   </ItemGroup>
   
   <ItemGroup>
+    <Reference Include="assembly_utils">
+      <HintPath>D:\Projects\Valheim\Valheim_Data\Managed\assembly_utils.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="assembly_valheim">
-      <HintPath>D:\SteamLibrary\steamapps\common\Valheim\Valheim_Data\Managed\assembly_valheim.dll</HintPath>
+      <HintPath>D:\Projects\Valheim\Valheim_Data\Managed\assembly_valheim.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="Jotunn">
-      <HintPath>D:\SteamLibrary\steamapps\common\Valheim\BepInEx\plugins\Jotunn.dll</HintPath>
+      <HintPath>D:\Projects\Valheim\BepInEx\plugins\Jotunn.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="ServerSync">
       <HintPath>libs\ServerSync.dll</HintPath>
       <Private>true</Private>
+    </Reference>
+    <Reference Include="SoftReferenceableAssets">
+      <HintPath>D:\Projects\Valheim\Valheim_Data\Managed\SoftReferenceableAssets.dll</HintPath>
+      <Private>false</Private>
     </Reference>
   </ItemGroup>
   
