@@ -34,6 +34,7 @@ public class PassivePowerCharacterPatch
       // Check if the effect is a passive power
       switch (effect.name.Replace("(Clone)", ""))
       {
+        
         case "SE_PassiveBonemassEffect":
           hit.m_damage.m_blunt *= 1f - (ForsakenPowerStats.BonemassDamageReduction * Plugin.PowerAmount.Value);
           hit.m_damage.m_slash *= 1f - (ForsakenPowerStats.BonemassDamageReduction * Plugin.PowerAmount.Value);

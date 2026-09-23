@@ -160,7 +160,7 @@ public static class GetStatusEffect
     /// Creates the elder passive power.
     /// </summary>
     /// <param name="prefab">elder forsaken power</param>
-    /// <returns>Passive Eldier Power</returns>
+    /// <returns>Passive Elder Power</returns>
     private static StatusEffect CreateElderPassive(StatusEffect prefab)
     {
         var effect = ScriptableObject.CreateInstance<SE_Stats>();
@@ -319,8 +319,8 @@ public static class GetStatusEffect
         effect.m_flashIcon = false;
         effect.m_ttl = 0.0f;
 
-        effect.m_staggerModifier = ForsakenPowerStats.FaderStaggerModifier * Plugin.PowerAmount.Value;
-        
+        effect.m_staggerModifier = ForsakenPowerStats.FaderStaggerModifier * Plugin.PowerAmount.Value * -1f;
+  
         effect.m_adrenalineModifier = ForsakenPowerStats.FaderAdrenelineIncrease * Plugin.PowerAmount.Value;
 
         return effect;
