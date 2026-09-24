@@ -80,11 +80,11 @@ public static class GetStatusEffect
     {
         if (Initialized) return;
         if (ObjectDB.instance == null) return;
-        if (!Plugin.ConfigSync.IsSourceOfTruth)
-        {
-            Initialized = true;
-            return;
-        }
+        // if (!Plugin.ConfigSync.IsSourceOfTruth)
+        // {
+        //     Initialized = true;
+        //     return;
+        // }
         
         string[] powerNames = ["GP_Eikthyr", "GP_TheElder", "GP_Bonemass", "GP_Moder", "GP_Yagluth", "GP_Queen", "GP_Fader"
         ];
