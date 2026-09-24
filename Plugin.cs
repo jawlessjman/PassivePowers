@@ -40,7 +40,7 @@ public class Plugin : BaseUnityPlugin
     {
         DisplayName = ModName,
         CurrentVersion = ModVersion,
-        MinimumRequiredVersion = "1.2.0",
+        MinimumRequiredVersion = "1.2.1",
         IsLocked = true,
         ModRequired = true
     };
