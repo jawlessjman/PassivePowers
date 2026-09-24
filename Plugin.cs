@@ -22,7 +22,7 @@ public class Plugin : BaseUnityPlugin
     // Plugin info
     private const string ModGuid = "jawlessjman.PassivePowers";
     public const string ModName = "PassivePowers";
-    public const string ModVersion = "1.2.1";
+    public const string ModVersion = "1.2.2";
 
     // Config values
     private ConfigEntry<bool> _powersEnabled;
