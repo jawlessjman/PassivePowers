@@ -51,7 +51,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <None Remove="Assets\Translations\English\passivePowers.json" />
+    <EmbeddedResource Include="Assets\Translations\Russian\passivepowers.json" />
     <EmbeddedResource Include="Assets\Translations\English\passivePowers.json" />
   </ItemGroup>
 

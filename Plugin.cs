@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using BepInEx;
 using BepInEx.Logging;
 using BepInEx.Configuration;
@@ -7,6 +8,7 @@ using Jotunn.Managers;
 using Jotunn.Utils;
 using ServerSync;
 using PassivePowers.Data;
+using UnityEngine.SceneManagement;
 
 namespace PassivePowers;
 
@@ -45,7 +47,7 @@ public class Plugin : BaseUnityPlugin
         ModRequired = true
     };
 
-private Harmony _harmony;
+    private Harmony _harmony;
         
     private void Awake()
     {
@@ -54,17 +56,14 @@ private Harmony _harmony;
         
         BindConfigs();
         
+        Config.SettingChanged += ConfigOnSettingChanged;
+        Config.ConfigReloaded += ConfigOnConfigReloaded;
+        
         // Load local translation for English
-        const string resourceName = $"PassivePowers.Assets.Translations.English.passivePowers.json";
-        var localizedEnglish = AssetUtils.LoadTextFromResources(resourceName);
-        if (string.IsNullOrEmpty(localizedEnglish))
-        {
-            Logger.LogInfo($"Loading English translation file from resources");
-        }
-        else
-        {
-            LocalizationManager.Instance.GetLocalization().AddJsonFile("English", localizedEnglish);
-        }
+        const string englishResourceName = "PassivePowers.Assets.Translations.English.passivePowers.json";
+        const string russianResourceName = "PassivePowers.Assets.Translations.Russian.passivePowers.json";
+        AddLocalizationFromResources("English", englishResourceName);
+        AddLocalizationFromResources("Russian", russianResourceName);
         
         // Load translations for other languages
         LoadTranslations();
@@ -90,7 +89,32 @@ private Harmony _harmony;
         _harmony = new Harmony(ModGuid);
         _harmony.PatchAll();
     }
-    
+
+    private static void AddLocalizationFromResources(string language, string resourceName)
+    {
+        var localized = AssetUtils.LoadTextFromResources(resourceName);
+        if (string.IsNullOrEmpty(localized))
+        {
+            Logger.LogInfo($"Loading {language} translation file from resources");
+        }
+        else
+        {
+            LocalizationManager.Instance.GetLocalization().AddJsonFile(language, localized);
+        }
+    }
+
+    private void ConfigOnConfigReloaded(object sender, EventArgs e)
+    {
+        Logger.LogInfo("Configuration reloaded.");
+        BindConfigs();
+    }
+
+    private void ConfigOnSettingChanged(object sender, SettingChangedEventArgs e)
+    {
+        Logger.LogInfo($"Setting changed: {e.ChangedSetting}");
+        BindConfigs();
+    }
+
     /// <summary>
     /// Loads translations from the Translations folder.
     /// </summary>
@@ -103,10 +127,10 @@ private Harmony _harmony;
 
         if (!Directory.Exists(root)) return;
         
-        foreach (var file in Directory.GetFiles(root, "passivePowers.json", SearchOption.AllDirectories))
+        foreach (var file in Directory.GetFiles(root, "passivepowers.json", SearchOption.AllDirectories))
         {
             Logger.LogInfo($"Loading translation file: {file}");
-            LocalizationManager.Instance.GetLocalization().AddFileByPath(file);
+            LocalizationManager.Instance.GetLocalization().AddFileByPath(file, true);
         }
     }
 
@@ -184,5 +208,28 @@ private Harmony _harmony;
             new ConfigDescription("Enable Fader Passive Power")
         );
         ConfigSync.AddConfigEntry(FaderEnabled).SynchronizedConfig = true;
+
+        if (ObjectDB.instance == null)
+        {
+            Logger.LogInfo("ObjectDB.instance is null, skipping initialization");
+            return;
+        }
+
+        if (!GetStatusEffect.Initialized)
+        {
+            Logger.LogInfo("GetStatusEffect is not initialized, skipping initialization");
+            return;
+        }
+
+        if (SceneManager.GetActiveScene().name != "start")
+        {
+            Logger.LogInfo("Not on the main menu, skipping initialization");
+            return;
+        }
+        
+        Logger.LogInfo("reseting then registers all powers");
+        
+        GetStatusEffect.ResetStatusEffects();
+        GetStatusEffect.RegisterAllPassivePowers();
     }
 }
