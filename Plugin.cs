@@ -8,7 +8,6 @@ using Jotunn.Managers;
 using Jotunn.Utils;
 using ServerSync;
 using PassivePowers.Data;
-using UnityEngine.SceneManagement;
 
 namespace PassivePowers;
 
@@ -22,7 +21,7 @@ public class Plugin : BaseUnityPlugin
     internal new static ManualLogSource Logger;
 
     // Plugin info
-    private const string ModGuid = "jawlessjman.PassivePowers";
+    public const string ModGuid = "jawlessjman.PassivePowers";
     public const string ModName = "PassivePowers";
     public const string ModVersion = "1.2.4";
 
@@ -37,12 +36,14 @@ public class Plugin : BaseUnityPlugin
     public static ConfigEntry<bool> YagluthEnabled;
     public static ConfigEntry<bool> QueenEnabled;
     public static ConfigEntry<bool> FaderEnabled;
+    
+    public static ConfigEntry<bool> MultiplePowersEnabled;
 
     public static readonly ConfigSync ConfigSync = new(ModGuid)
     {
         DisplayName = ModName,
         CurrentVersion = ModVersion,
-        MinimumRequiredVersion = "1.2.1",
+        MinimumRequiredVersion = "1.2.4",
         IsLocked = true,
         ModRequired = true
     };
@@ -208,28 +209,13 @@ public class Plugin : BaseUnityPlugin
             new ConfigDescription("Enable Fader Passive Power")
         );
         ConfigSync.AddConfigEntry(FaderEnabled).SynchronizedConfig = true;
-
-        if (ObjectDB.instance == null)
-        {
-            Logger.LogInfo("ObjectDB.instance is null, skipping initialization");
-            return;
-        }
-
-        if (!GetStatusEffect.Initialized)
-        {
-            Logger.LogInfo("GetStatusEffect is not initialized, skipping initialization");
-            return;
-        }
-
-        if (SceneManager.GetActiveScene().name != "start")
-        {
-            Logger.LogInfo("Not on the main menu, skipping initialization");
-            return;
-        }
         
-        Logger.LogInfo("reseting then registers all powers");
-        
-        GetStatusEffect.ResetStatusEffects();
-        GetStatusEffect.RegisterAllPassivePowers();
+        MultiplePowersEnabled = Config.Bind(
+            "General",
+            "Multiple Powers Enabled",
+            false,
+            new ConfigDescription("Enable the ability to have more then one passive power equipped at once.")
+        );
+        ConfigSync.AddConfigEntry(MultiplePowersEnabled).SynchronizedConfig = true;
     }
 }

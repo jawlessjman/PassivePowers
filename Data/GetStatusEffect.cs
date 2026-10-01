@@ -143,6 +143,8 @@ public static class GetStatusEffect
         effect.m_tooltip = "$passive_eikthyr_effect_tooltip";
         effect.m_flashIcon = false;
         effect.m_ttl = 0.0f;
+        effect.m_startEffects = prefab.m_startEffects;
+        effect.m_stopEffects = prefab.m_stopEffects;
         
         effect.m_swimStaminaUseModifier = -ForsakenPowerStats.EikthyrStaminaModifier * Plugin.PowerAmount.Value;
         effect.m_runStaminaUseModifier = -ForsakenPowerStats.EikthyrStaminaModifier  * Plugin.PowerAmount.Value;
@@ -168,6 +170,8 @@ public static class GetStatusEffect
         effect.m_cooldownIcon = false;
         effect.m_flashIcon = false;
         effect.m_ttl = 0.0f;
+        effect.m_startEffects = prefab.m_startEffects;
+        effect.m_stopEffects = prefab.m_stopEffects;
         
         effect.m_healthRegenMultiplier = 1f + ForsakenPowerStats.ElderHealthRegenModifier * Plugin.PowerAmount.Value;
         effect.m_percentigeDamageModifiers = new HitData.DamageTypes(){m_chop = ForsakenPowerStats.ElderDamageModifier * Plugin.PowerAmount.Value, m_pickaxe = ForsakenPowerStats.ElderDamageModifier * Plugin.PowerAmount.Value};
@@ -192,6 +196,8 @@ public static class GetStatusEffect
         effect.m_cooldownIcon = false;
         effect.m_flashIcon = false;
         effect.m_ttl = 0.0f;
+        effect.m_startEffects = prefab.m_startEffects;
+        effect.m_stopEffects = prefab.m_stopEffects;
         
         effect.m_blockStaminaUseModifier = -ForsakenPowerStats.BonemassBlockStaminaModifier * Plugin.PowerAmount.Value;
         
@@ -244,6 +250,8 @@ public static class GetStatusEffect
         effect.m_cooldownIcon = false;
         effect.m_flashIcon = false;
         effect.m_ttl = 0.0f;
+        effect.m_startEffects = prefab.m_startEffects;
+        effect.m_stopEffects = prefab.m_stopEffects;
 
         effect.m_skillLevel = Skills.SkillType.Farming;
         effect.m_skillLevelModifier = ForsakenPowerStats.YagluthFarmingSkillModifier * Plugin.PowerAmount.Value;
@@ -283,6 +291,8 @@ public static class GetStatusEffect
         effect.m_cooldownIcon = false;
         effect.m_flashIcon = false;
         effect.m_ttl = 0.0f;
+        effect.m_startEffects = prefab.m_startEffects;
+        effect.m_stopEffects = prefab.m_stopEffects;
 
         effect.m_eitrRegenMultiplier = 1f + ForsakenPowerStats.QueenEitrRegenModifier * Plugin.PowerAmount.Value;
         effect.m_sneakStaminaUseModifier = -ForsakenPowerStats.QueenSneakStaminaUsage * Plugin.PowerAmount.Value;
@@ -308,6 +318,8 @@ public static class GetStatusEffect
         effect.m_cooldownIcon = false;
         effect.m_flashIcon = false;
         effect.m_ttl = 0.0f;
+        effect.m_startEffects = prefab.m_startEffects;
+        effect.m_stopEffects = prefab.m_stopEffects;
 
         effect.m_staggerModifier = ForsakenPowerStats.FaderStaggerModifier * Plugin.PowerAmount.Value * -1f;
   

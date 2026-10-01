@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using HarmonyLib;
 using PassivePowers.Data;
 
@@ -13,7 +14,7 @@ public class PassivePowersPlayerPatch
     /// <summary>
     /// Maps the name of the guardian power to the name of the passive power effect.
     /// </summary>
-    private static readonly System.Collections.Generic.Dictionary<string, string> PowerMapping = new()
+    public static readonly System.Collections.Generic.Dictionary<string, string> PowerMapping = new()
     {
         { "GP_Eikthyr", "SE_PassiveEikthyrEffect" },
         { "GP_TheElder", "SE_PassiveElderEffect" },
@@ -58,7 +59,7 @@ public class PassivePowersPlayerPatch
     [HarmonyPatch(typeof(Player), nameof(Player.GetGuardianPowerHUD))]
     private static bool GetGuardianPowerHudPrefix(Player __instance, out StatusEffect se, out float cooldown)
     {
-        se = (StatusEffect)null;
+        se = null;
         cooldown = 0.0f;
         
         if (__instance == null)
@@ -101,9 +102,20 @@ public class PassivePowersPlayerPatch
             if (seMan == null) return;
 
             // Remove all passive powers
-            foreach (var passiveName in PowerMapping.Values)
+            if (!Plugin.MultiplePowersEnabled.Value)
             {
-                seMan.RemoveStatusEffect(passiveName.GetStableHashCode());
+                foreach (var passiveName in PowerMapping.Values)
+                {
+                    seMan.RemoveStatusEffect(passiveName.GetStableHashCode());
+                }
+            }
+            else
+            {
+                foreach (var row in PowerMapping.Where(row => seMan.HaveStatusEffect(row.Value.GetStableHashCode()) && row.Key == name))
+                {
+                    seMan.RemoveStatusEffect(row.Value.GetStableHashCode());
+                    return;
+                }
             }
 
             // Get the target passive power

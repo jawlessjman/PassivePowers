@@ -28,6 +28,9 @@
   </ItemGroup>
   
   <ItemGroup>
+    <Reference Include="assembly_guiutils">
+      <HintPath>D:\Projects\Valheim\Valheim_Data\Managed\assembly_guiutils.dll</HintPath>
+    </Reference>
     <Reference Include="assembly_utils">
       <HintPath>D:\Projects\Valheim\Valheim_Data\Managed\assembly_utils.dll</HintPath>
       <Private>false</Private>
@@ -47,6 +50,9 @@
     <Reference Include="SoftReferenceableAssets">
       <HintPath>D:\Projects\Valheim\Valheim_Data\Managed\SoftReferenceableAssets.dll</HintPath>
       <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.LocalizationModule">
+      <HintPath>D:\Projects\Valheim\Valheim_Data\Managed\UnityEngine.LocalizationModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   

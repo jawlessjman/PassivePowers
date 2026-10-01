@@ -28,5 +28,8 @@
   
   "passive_fader_effect" : "Passive Fader Power",
   "passive_fader_effect_start" : "The ash storms answer to your call",
-  "passive_fader_effect_tooltip" : "The Emerald Flame never relents. You shall stand your ground, even when it is aflame, and you shall use all the advantages the battle may offer you. (Damage reduction does not show but is applied)"
+  "passive_fader_effect_tooltip" : "The Emerald Flame never relents. You shall stand your ground, even when it is aflame, and you shall use all the advantages the battle may offer you. (Damage reduction does not show but is applied)",
+  
+  "add_power" : "Add passive power",
+  "remove_power" : "Remove passive power"
 }
