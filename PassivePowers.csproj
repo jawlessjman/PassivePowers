@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
     <AssemblyName>PassivePowers</AssemblyName>
-    <Product>My first plugin</Product>
-    <Version>1.2.2</Version>
+    <Product>PassivePowers</Product>
+    <Version>1.2.4</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
     <RestoreAdditionalProjectSources>
@@ -52,7 +52,7 @@
   
   <ItemGroup>
     <EmbeddedResource Include="Assets\Translations\Russian\passivepowers.json" />
-    <EmbeddedResource Include="Assets\Translations\English\passivePowers.json" />
+    <EmbeddedResource Include="Assets\Translations\English\passivepowers.json" />
   </ItemGroup>
 
   <Target Name="ILRepacker" AfterTargets="Build">

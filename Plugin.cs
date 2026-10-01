@@ -24,7 +24,7 @@ public class Plugin : BaseUnityPlugin
     // Plugin info
     private const string ModGuid = "jawlessjman.PassivePowers";
     public const string ModName = "PassivePowers";
-    public const string ModVersion = "1.2.2";
+    public const string ModVersion = "1.2.4";
 
     // Config values
     private ConfigEntry<bool> _powersEnabled;
@@ -59,9 +59,9 @@ public class Plugin : BaseUnityPlugin
         Config.SettingChanged += ConfigOnSettingChanged;
         Config.ConfigReloaded += ConfigOnConfigReloaded;
         
-        // Load local translation for English
-        const string englishResourceName = "PassivePowers.Assets.Translations.English.passivePowers.json";
-        const string russianResourceName = "PassivePowers.Assets.Translations.Russian.passivePowers.json";
+        // Load embedded translations
+        const string englishResourceName = "PassivePowers.Assets.Translations.English.passivepowers.json";
+        const string russianResourceName = "PassivePowers.Assets.Translations.Russian.passivepowers.json";
         AddLocalizationFromResources("English", englishResourceName);
         AddLocalizationFromResources("Russian", russianResourceName);
         
@@ -95,7 +95,7 @@ public class Plugin : BaseUnityPlugin
         var localized = AssetUtils.LoadTextFromResources(resourceName);
         if (string.IsNullOrEmpty(localized))
         {
-            Logger.LogInfo($"Loading {language} translation file from resources");
+            Logger.LogWarning($"Could not load {language} translation from embedded resource '{resourceName}': resource is missing or empty.");
         }
         else
         {

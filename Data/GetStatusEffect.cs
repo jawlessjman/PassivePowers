@@ -222,11 +222,6 @@ public static class GetStatusEffect
         if (effect is not SE_Stats stats) return effect;
         stats.m_addMaxCarryWeight = ForsakenPowerStats.ModerCarryWeightModifier * Plugin.PowerAmount.Value;
         stats.m_speedModifier = ForsakenPowerStats.ModerSpeedModifier * Plugin.PowerAmount.Value;
-        stats.m_mods =
-        [
-            new HitData.DamageModPair()
-                { m_type = HitData.DamageType.Frost, m_modifier = HitData.DamageModifier.Normal }
-        ];
 
         return effect;
     }
